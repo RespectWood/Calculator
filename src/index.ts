@@ -26,11 +26,16 @@ const clearBtn = document.getElementById("clear")
 const numberBtns = document.querySelectorAll(".numbers")
 
 
+clearBtn?.addEventListener("click", () =>{
+    displayEL.value = " ";
+});
+
+
 numberBtns.forEach((btn) => {
     btn.addEventListener("click", (e) => {
         displayEL.value = (e.target as HTMLButtonElement).value;
         currentValue = (e.target as HTMLButtonElement).value; 
     })
-})
+});
 
 

@@ -21,6 +21,7 @@ html, body {
 #display {
     border: solid purple;
     text-align: center;
+    min-height: 20px;
 }
 
 
