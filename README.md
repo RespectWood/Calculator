@@ -10,3 +10,6 @@ npm install commitizen conventional-changelog-conventionalcommits cz-conventiona
 
 // ts-loader: makes webpack work, webpack converts TS to JS. 
 npm install ts-loader, webpack, webpack-cli commandline interface
+
+// run serve server
+npm run serve, then npm run build:watch

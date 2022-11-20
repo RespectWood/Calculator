@@ -10,13 +10,27 @@ html, body {
 }
 
 #container {
-    display: flex;
+    display: grid;
     justify-content: center;
     width: 300px;
     height: 500px;   
     align-items: center;
+    border: solid purple;
 }
 
-#operators {
+#display {
+    border: solid purple;
+    text-align: center;
+}
+
+
+.operators {
+    display: flex;
     justify-content: center;
+}
+
+.numbers {
+    display: flex;
+    align-self: flex-start;
+
 }

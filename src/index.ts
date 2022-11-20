@@ -17,5 +17,20 @@ function operate (operator: Operator, a: number, b: number ){
     }
 }
 
-let newnumber = operate("/", 5, 5)
-console.log(newnumber)
+
+let previousValue = ""
+let currentValue = ""
+
+const displayEL = document.getElementById("display") as HTMLOutputElement
+const clearBtn = document.getElementById("clear")
+const numberBtns = document.querySelectorAll(".numbers")
+
+
+numberBtns.forEach((btn) => {
+    btn.addEventListener("click", (e) => {
+        displayEL.value = (e.target as HTMLButtonElement).value;
+        currentValue = (e.target as HTMLButtonElement).value; 
+    })
+})
+
+
