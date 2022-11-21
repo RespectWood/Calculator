@@ -4,7 +4,9 @@ const displayEL = document.getElementById("display") as HTMLOutputElement;
 const clearBtn = document.getElementById("clear");
 const numberBtns = document.querySelectorAll(".numbers");
 const operateBtns = document.querySelectorAll(".operators");
-const equalsBtn = document.getElementById("equals");
+const enterBtn = document.getElementById("enter");
+
+console.log(numberBtns);
 
 // execute math operation
 function operate(operator: any, a: number, b: number) {
@@ -29,37 +31,27 @@ let operatorChoice = "";
 
 let savedCalculation: any = 0;
 
-let isEqualsBtnPressed = false;
+let isEnterBtnPressed = false;
 
-// "=" button for result - executes string - num converstion, invoke operate function for solution
-equalsBtn?.addEventListener("click", () => {
+// Enter button for result - executes string - num converstion, invoke operate function for solution
+enterBtn?.addEventListener("click", () => {
   let sum: any = "";
   let joinString1 = number1.join("");
   let joinString2 = number2.join("");
   let stringToCalc1 = Number(joinString1);
   let stringToCalc2 = Number(joinString2);
-  if (!isEqualsBtnPressed) {
+  if (!isEnterBtnPressed) {
     sum = operate(operatorChoice, stringToCalc1, stringToCalc2);
     savedCalculation = sum;
   }
-  if (isEqualsBtnPressed) {
+  if (isEnterBtnPressed) {
     sum = operate(operatorChoice, savedCalculation, stringToCalc2);
     savedCalculation = sum;
   }
   displayEL.value = sum as unknown as string;
   number1 = [];
   number2 = [];
-  isEqualsBtnPressed = true;
-});
-
-// clear display and user-input
-clearBtn?.addEventListener("click", () => {
-  displayEL.value = " ";
-  number1 = [];
-  number2 = [];
-  operatorChoice = "";
-  isOperatorClicked = false;
-  isEqualsBtnPressed = false;
+  isEnterBtnPressed = true;
 });
 
 let isOperatorClicked = false;
@@ -68,15 +60,13 @@ numberBtns?.forEach((btn) => {
   btn.addEventListener("click", (e) => {
     displayEL.value += (e.target as HTMLButtonElement).value;
     let clickedNumber = (e.target as HTMLButtonElement).value;
-    // let stringToNumber = Number(clickedNumber);
     if (!isOperatorClicked) {
       number1.push(clickedNumber);
     }
     if (isOperatorClicked) {
       number2.push(clickedNumber);
     }
-    console.log(number1);
-    console.log(number2);
+    console.log(clickedNumber);
   });
 
   operateBtns.forEach((btn) => {
@@ -87,4 +77,14 @@ numberBtns?.forEach((btn) => {
       isOperatorClicked = true;
     });
   });
+});
+
+// clear display and user-input
+clearBtn?.addEventListener("click", () => {
+  displayEL.value = " ";
+  number1 = [];
+  number2 = [];
+  operatorChoice = "";
+  isOperatorClicked = false;
+  isEnterBtnPressed = false;
 });
