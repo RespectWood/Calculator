@@ -1,13 +1,12 @@
 import { add, divide, multiply, subtract } from "./math";
 
-// DOM elements
 const displayEL = document.getElementById("display") as HTMLOutputElement;
 const clearBtn = document.getElementById("clear");
 const numberBtns = document.querySelectorAll(".numbers");
 const operateBtns = document.querySelectorAll(".operators");
 const equalsBtn = document.getElementById("equals");
 
-// math function
+// execute math operation
 function operate(operator: any, a: number, b: number) {
   if (operator === "+") {
     return add(a, b);
