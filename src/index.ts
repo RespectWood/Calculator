@@ -1,12 +1,10 @@
-import { add, divide, multiply, subtract } from "./math";
+import { add, divide, multiply, powerOf, subtract } from "./math";
 
 const displayEL = document.getElementById("display") as HTMLOutputElement;
 const clearBtn = document.getElementById("clear");
 const numberBtns = document.querySelectorAll(".numbers");
 const operateBtns = document.querySelectorAll(".operators");
 const enterBtn = document.getElementById("enter");
-
-console.log(numberBtns);
 
 // execute math operation
 function operate(operator: any, a: number, b: number) {
@@ -21,6 +19,9 @@ function operate(operator: any, a: number, b: number) {
   }
   if (operator === "/") {
     return divide(a, b);
+  }
+  if (operator === "^") {
+    return powerOf(a, b);
   }
 }
 
@@ -68,14 +69,14 @@ numberBtns?.forEach((btn) => {
     }
     console.log(clickedNumber);
   });
+});
 
-  operateBtns.forEach((btn) => {
-    btn.addEventListener("click", (e) => {
-      operatorChoice = (e.target as HTMLButtonElement).value;
-      displayEL.value += (e.target as HTMLButtonElement).value;
-      console.log(operatorChoice);
-      isOperatorClicked = true;
-    });
+operateBtns.forEach((btn) => {
+  btn.addEventListener("click", (e) => {
+    operatorChoice = (e.target as HTMLButtonElement).value;
+    displayEL.value += (e.target as HTMLButtonElement).value;
+    console.log(operatorChoice);
+    isOperatorClicked = true;
   });
 });
 
