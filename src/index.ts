@@ -1,12 +1,20 @@
-import { add, divide, multiply, powerOf, subtract } from "./math";
+import {
+  add,
+  divide,
+  multiply,
+  powerOf,
+  precisionRound,
+  subtract,
+} from "./math";
 
 const displayEL = document.getElementById("display") as HTMLOutputElement;
 const clearBtn = document.getElementById("clear");
 const numberBtns = document.querySelectorAll(".numbers");
 const operateBtns = document.querySelectorAll(".operators");
 const enterBtn = document.getElementById("enter");
+const dotBtn = document.getElementById("dot") as HTMLButtonElement;
 
-// execute math operation
+// math
 function operate(operator: any, a: number, b: number) {
   if (operator === "+") {
     return add(a, b);
@@ -34,11 +42,9 @@ let savedCalculation: any = 0;
 
 let isEnterBtnPressed = false;
 
-let blockEnterButton = true;
-
 // Enter button for result - executes string - num converstion, invoke operate function for solution
 enterBtn?.addEventListener("click", () => {
-  if (blockEnterButton === true) {
+  if (operatorChoice == "" || isOperatorClicked === false) {
     return;
   }
   let sum: any = "";
@@ -54,10 +60,15 @@ enterBtn?.addEventListener("click", () => {
     sum = operate(operatorChoice, savedCalculation, stringToCalc2);
     savedCalculation = sum;
   }
-  displayEL.value = sum as unknown as string;
+  let displayNumber = precisionRound(sum, 3);
+  displayEL.value = displayNumber as unknown as string;
   number1 = [];
   number2 = [];
   isEnterBtnPressed = true;
+  dotBtn.disabled = false;
+  if (displayNumber - Math.floor(displayNumber) !== 0) {
+    dotBtn.disabled = true;
+  }
 });
 
 let isOperatorClicked = false;
@@ -74,7 +85,7 @@ numberBtns?.forEach((btn) => {
     }
     console.log(clickedNumber);
   });
-  blockEnterButton = false;
+  dotBtn.disabled = false;
 });
 
 operateBtns.forEach((btn) => {
@@ -83,7 +94,7 @@ operateBtns.forEach((btn) => {
     displayEL.value += (e.target as HTMLButtonElement).value;
     console.log(operatorChoice);
     isOperatorClicked = true;
-    blockEnterButton = false;
+    dotBtn.disabled = false;
   });
 });
 
@@ -95,5 +106,10 @@ clearBtn?.addEventListener("click", () => {
   operatorChoice = "";
   isOperatorClicked = false;
   isEnterBtnPressed = false;
-  blockEnterButton = true;
+  dotBtn.disabled = false;
+});
+
+dotBtn?.addEventListener("click", (e) => {
+  // displayEL.value += (e.target as HTMLButtonElement).value;
+  dotBtn.disabled = true;
 });

@@ -17,8 +17,7 @@ export function powerOf(a: number, b: number) {
   return Math.pow(a, b);
 }
 
-// let sum = a[0]
-// for (let i = 1; i < a.length; i++){
-//     sum *= a[i];
-// }
-// return sum
+export function precisionRound(number: number, precision: number) {
+  const factor = Math.pow(10, precision);
+  return Math.round(number * factor) / factor;
+}
