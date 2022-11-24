@@ -34,8 +34,13 @@ let savedCalculation: any = 0;
 
 let isEnterBtnPressed = false;
 
+let blockEnterButton = true;
+
 // Enter button for result - executes string - num converstion, invoke operate function for solution
 enterBtn?.addEventListener("click", () => {
+  if (blockEnterButton === true) {
+    return;
+  }
   let sum: any = "";
   let joinString1 = number1.join("");
   let joinString2 = number2.join("");
@@ -69,6 +74,7 @@ numberBtns?.forEach((btn) => {
     }
     console.log(clickedNumber);
   });
+  blockEnterButton = false;
 });
 
 operateBtns.forEach((btn) => {
@@ -77,6 +83,7 @@ operateBtns.forEach((btn) => {
     displayEL.value += (e.target as HTMLButtonElement).value;
     console.log(operatorChoice);
     isOperatorClicked = true;
+    blockEnterButton = false;
   });
 });
 
@@ -88,4 +95,5 @@ clearBtn?.addEventListener("click", () => {
   operatorChoice = "";
   isOperatorClicked = false;
   isEnterBtnPressed = false;
+  blockEnterButton = true;
 });
