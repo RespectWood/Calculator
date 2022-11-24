@@ -26,8 +26,12 @@ function operate(operator: any, a: number, b: number) {
     return multiply(a, b);
   }
   if (operator === "/") {
+    if (b === 0) {
+      return;
+    }
     return divide(a, b);
   }
+
   if (operator === "^") {
     return powerOf(a, b);
   }
@@ -41,6 +45,17 @@ let operatorChoice = "";
 let savedCalculation: any = 0;
 
 let isEnterBtnPressed = false;
+
+// clear function
+function clearCalculator() {
+  displayEL.value = " ";
+  number1 = [];
+  number2 = [];
+  operatorChoice = "";
+  isOperatorClicked = false;
+  isEnterBtnPressed = false;
+  dotBtn.disabled = false;
+}
 
 // Enter button for result - executes string - num converstion, invoke operate function for solution
 enterBtn?.addEventListener("click", () => {
@@ -100,16 +115,9 @@ operateBtns.forEach((btn) => {
 
 // clear display and user-input
 clearBtn?.addEventListener("click", () => {
-  displayEL.value = " ";
-  number1 = [];
-  number2 = [];
-  operatorChoice = "";
-  isOperatorClicked = false;
-  isEnterBtnPressed = false;
-  dotBtn.disabled = false;
+  clearCalculator();
 });
 
-dotBtn?.addEventListener("click", (e) => {
-  // displayEL.value += (e.target as HTMLButtonElement).value;
+dotBtn?.addEventListener("click", () => {
   dotBtn.disabled = true;
 });
