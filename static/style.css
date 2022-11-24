@@ -40,11 +40,15 @@ body{
     font-size: 1.5rem;
     inline-size: 60px;
 
-    block-size: 60px;
+
+    block-size: 50px;
   
-    border-radius: 50px;
+    border-radius: 0px;
 }
 
+#clear{
+    padding-left: 15px;
+}
 
 
 #enter{
