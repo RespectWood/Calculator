@@ -98,7 +98,6 @@ numberBtns?.forEach((btn) => {
     if (isOperatorClicked) {
       number2.push(clickedNumber);
     }
-    console.log(clickedNumber);
   });
   dotBtn.disabled = false;
 });
@@ -107,7 +106,6 @@ operateBtns.forEach((btn) => {
   btn.addEventListener("click", (e) => {
     operatorChoice = (e.target as HTMLButtonElement).value;
     displayEL.value += (e.target as HTMLButtonElement).value;
-    console.log(operatorChoice);
     isOperatorClicked = true;
     dotBtn.disabled = false;
   });
