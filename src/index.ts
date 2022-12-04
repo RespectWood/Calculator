@@ -42,6 +42,8 @@ let number1: any[] = [];
 let number2: any[] = [];
 let operatorChoice = "";
 
+let ord: any = 0;
+
 let savedCalculation: any = 0;
 
 let isEnterBtnPressed = false;

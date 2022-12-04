@@ -12,7 +12,7 @@ body{
         border-radius: 10px; /* Round the edges */
         overflow: hidden; /* don't let other elements go outside the calculator */
         box-shadow: 0px 4px 8px 0px rgba(0, 0, 0, 0.15), 0px 3px 6px 0px rgba(0, 0, 0, 0.12); /* Give the calculator some depth off the page */
-        
+        width: 243px;
     }
     
     #display {
