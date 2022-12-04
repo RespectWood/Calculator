@@ -6,6 +6,7 @@ import {
   precisionRound,
   subtract,
 } from "./math";
+
 import { assertIsOperator, Operator } from "./operator";
 
 const displayEL = document.getElementById("display") as HTMLOutputElement;
@@ -17,6 +18,7 @@ const dotBtn = document.getElementById("dot") as HTMLButtonElement;
 
 // math
 function operate(operator: Operator, a: number, b: number) {
+  console.log("operate", operator);
   if (operator === "+") {
     return add(a, b);
   }
@@ -99,7 +101,6 @@ numberBtns?.forEach((btn) => {
       numbersPreOperator.push(clickedNumber);
     }
   });
-  dotBtn.disabled = false;
 });
 
 operateBtns.forEach((btn) => {
