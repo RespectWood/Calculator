@@ -6,6 +6,7 @@ import {
   precisionRound,
   subtract,
 } from "./math";
+import { assertIsOperator, Operator } from "./operator";
 
 const displayEL = document.getElementById("display") as HTMLOutputElement;
 const clearBtn = document.getElementById("clear");
@@ -15,7 +16,7 @@ const enterBtn = document.getElementById("enter");
 const dotBtn = document.getElementById("dot") as HTMLButtonElement;
 
 // math
-function operate(operator: any, a: number, b: number) {
+function operate(operator: Operator, a: number, b: number) {
   if (operator === "+") {
     return add(a, b);
   }
@@ -27,7 +28,7 @@ function operate(operator: any, a: number, b: number) {
   }
   if (operator === "/") {
     if (b === 0) {
-      return;
+      throw new Error("Illegal divide by 0.");
     }
     return divide(a, b);
   }
@@ -35,57 +36,53 @@ function operate(operator: any, a: number, b: number) {
   if (operator === "^") {
     return powerOf(a, b);
   }
+  throw Error();
 }
 
 // user input stored as strings
-let number1: any[] = [];
-let number2: any[] = [];
-let operatorChoice = "";
+const numbersPreOperator: string[] = [];
+const numbersPostOperator: string[] = [];
+let operatorChoice: Operator | "" = "";
 
-let ord: any = 0;
-
-let savedCalculation: any = 0;
+let savedCalculation = 0;
 
 let isEnterBtnPressed = false;
 
 // clear function
 function clearCalculator() {
   displayEL.value = " ";
-  number1 = [];
-  number2 = [];
+  numbersPreOperator.splice(0);
+  numbersPostOperator.splice(0);
   operatorChoice = "";
   isOperatorClicked = false;
   isEnterBtnPressed = false;
   dotBtn.disabled = false;
 }
 
+function numberFromStringArray(str: string[]) {
+  return Number(str.join(""));
+}
+
 // Enter button for result - executes string - num converstion, invoke operate function for solution
 enterBtn?.addEventListener("click", () => {
-  if (operatorChoice == "" || isOperatorClicked === false) {
+  if (operatorChoice == "" || !isOperatorClicked) {
     return;
   }
-  let sum: any = "";
-  let joinString1 = number1.join("");
-  let joinString2 = number2.join("");
-  let stringToCalc1 = Number(joinString1);
-  let stringToCalc2 = Number(joinString2);
-  if (!isEnterBtnPressed) {
-    sum = operate(operatorChoice, stringToCalc1, stringToCalc2);
-    savedCalculation = sum;
-  }
-  if (isEnterBtnPressed) {
-    sum = operate(operatorChoice, savedCalculation, stringToCalc2);
-    savedCalculation = sum;
-  }
-  let displayNumber = precisionRound(sum, 3);
-  displayEL.value = displayNumber as unknown as string;
-  number1 = [];
-  number2 = [];
+  const x = numberFromStringArray(numbersPreOperator);
+  const y = numberFromStringArray(numbersPostOperator);
+
+  savedCalculation = isEnterBtnPressed
+    ? operate(operatorChoice, savedCalculation, y)
+    : operate(operatorChoice, x, y);
+
+  const displayNumber = precisionRound(savedCalculation, 3);
+  displayEL.value = displayNumber.toString();
+
+  numbersPreOperator.splice(0);
+  numbersPostOperator.splice(0);
   isEnterBtnPressed = true;
-  dotBtn.disabled = false;
-  if (displayNumber - Math.floor(displayNumber) !== 0) {
-    dotBtn.disabled = true;
-  }
+
+  dotBtn.disabled = displayNumber - Math.floor(displayNumber) !== 0;
 });
 
 let isOperatorClicked = false;
@@ -93,12 +90,13 @@ let isOperatorClicked = false;
 numberBtns?.forEach((btn) => {
   btn.addEventListener("click", (e) => {
     displayEL.value += (e.target as HTMLButtonElement).value;
-    let clickedNumber = (e.target as HTMLButtonElement).value;
-    if (!isOperatorClicked) {
-      number1.push(clickedNumber);
-    }
+    const clickedNumber = (e.target as HTMLButtonElement).value;
+
     if (isOperatorClicked) {
-      number2.push(clickedNumber);
+      numbersPostOperator.push(clickedNumber);
+      return;
+    } else {
+      numbersPreOperator.push(clickedNumber);
     }
   });
   dotBtn.disabled = false;
@@ -106,7 +104,10 @@ numberBtns?.forEach((btn) => {
 
 operateBtns.forEach((btn) => {
   btn.addEventListener("click", (e) => {
-    operatorChoice = (e.target as HTMLButtonElement).value;
+    const choice = (e.target as HTMLButtonElement).value;
+    assertIsOperator(choice);
+    operatorChoice = choice;
+
     displayEL.value += (e.target as HTMLButtonElement).value;
     isOperatorClicked = true;
     dotBtn.disabled = false;
